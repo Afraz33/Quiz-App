@@ -1,7 +1,5 @@
-import { children } from "react";
-
-function Main() {
-  return <div>{children}</div>;
+function Main({ children }) {
+  return <main className="main">{children}</main>;
 }
 
 export default Main;
