@@ -1,6 +1,12 @@
 :root {
   --color-darkest: #343a40;
+  --color-dark: #385a64;
+  --color-medium: #ced4da;
   --color-light: #f1f3f5;
+
+  --color-theme: #1098ad;
+  --color-accent: #fb745c;
+  --color-additional: #f8be98;
 }
 @import url("https://fonts.googleapis.com/css2?family=Codystar&display=swap");
 * {
@@ -70,4 +76,24 @@ h4 {
   font-size: 2.2rem;
   font-weight: 600;
   margin-bottom: 2.4rem;
+}
+
+progress {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 30%;
+  height: 0.7rem;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: var(--color-light);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+progress[value]::-webkit-progress-value {
+  background-color: var(--color-accent);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
