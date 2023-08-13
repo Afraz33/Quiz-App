@@ -46,14 +46,14 @@ code {
 
 .app-header {
   width: 44rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .main {
-  width: 30rem;
+  width: 40rem;
 }
 img {
   width: 10rem;
@@ -66,17 +66,17 @@ h1 {
 
 h2 {
   font-size: 3.6rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 h3 {
-  font-size: 2.4rem;
+  font-size: 2.6rem;
   font-weight: 600;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 
 h4 {
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 2.4rem;
 }
@@ -108,4 +108,69 @@ progress[value]::-webkit-progress-value {
   font-size: 1.4rem;
   justify-content: space-between;
   gap: 1.2rem;
+}
+
+.QuizType {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 2rem;
+  row-gap: 1.5rem;
+  font-size: 1.1rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+  margin-top: 1rem;
+}
+
+.QuizType div {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  justify-content: center;
+}
+.QuizType div select {
+  background-color: var(--color-darkest);
+  height: 1.8rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  color: var(--color-light);
+  border-color: var(--color-light);
+  background-color: var(--color-theme);
+  padding: 0 8px;
+}
+
+.QuizType div input {
+  background-color: var(--color-theme);
+  height: 1.8rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  color: var(--color-light);
+  border-color: var(--color-light);
+  padding: 0 8px;
+}
+
+.StartScreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  display: block;
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.4rem;
+  border: 2px solid var(--color-dark);
+  background-color: var(--color-dark);
+  padding: 0.5rem 2.3rem;
+  cursor: pointer;
+  border-radius: 100px;
+  transition: 0.3s;
+  border-color: var(--color-accent);
+  float: right;
+}
+
+.btn:not([disabled]):hover {
+  background-color: var(--color-darkest);
 }
