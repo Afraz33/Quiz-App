@@ -1,4 +1,12 @@
-function StartScreen({ setDifficulty }) {
+function StartScreen({
+  setIsClicked,
+  setDifficulty,
+  setCategory,
+  handleSetNumberOfQuestions,
+  handleSecondsPerQuestion,
+  secondsPerQuestion,
+  numberOfQuestions,
+}) {
   return (
     <div className="StartScreen">
       <h3>Welcome to the Quiz App!</h3>
@@ -6,11 +14,17 @@ function StartScreen({ setDifficulty }) {
       <div className="QuizType">
         <div>
           <label>Category:</label>
-          <select id="category" name="category">
-            <option value="Any Category">Any Category</option>
+          <select
+            id="category"
+            name="category"
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
+          >
+            <option value="">Any Category</option>
             <option value="21">Sports</option>
             <option value="17">Scince & Nature</option>
-            <option value="28">Science: Computers</option>
+            <option value="18">Science: Computers</option>
             <option value="27">Animals</option>
             <option value="28">Vehicles</option>
           </select>
@@ -18,11 +32,15 @@ function StartScreen({ setDifficulty }) {
         <div>
           <label>No. of Questions:</label>
           <input
+            onChange={(e) => {
+              handleSetNumberOfQuestions(e.target.value);
+            }}
             type="number"
             id="questions"
             name="questions"
             min="1"
             max="50"
+            value={numberOfQuestions}
           ></input>
         </div>
         <div>
@@ -35,14 +53,18 @@ function StartScreen({ setDifficulty }) {
             name="difficulty"
           >
             <option value="">Any Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </select>
         </div>
         <div>
           <label>Seconds / Question:</label>
           <input
+            onChange={(e) => {
+              handleSecondsPerQuestion(e.target.value);
+            }}
+            value={secondsPerQuestion}
             type="number"
             id="questions"
             name="questions"
@@ -51,7 +73,14 @@ function StartScreen({ setDifficulty }) {
           ></input>
         </div>
       </div>
-      <button className="btn btn-ui">Let's Start</button>
+      <button
+        onClick={() => {
+          setIsClicked((isClicked) => !isClicked);
+        }}
+        className="btn btn-ui"
+      >
+        Let's Start
+      </button>
     </div>
   );
 }
