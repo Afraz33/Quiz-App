@@ -174,3 +174,32 @@ progress[value]::-webkit-progress-value {
 .btn:not([disabled]):hover {
   background-color: var(--color-darkest);
 }
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.continuous-5 {
+  margin-top: 70px;
+  width: 180px;
+  height: 20px;
+  background: linear-gradient(#25b09b 0 0) left -40px top 0/40px 20px,
+    linear-gradient(#ddd 0 0) center/100% 50%;
+  background-repeat: no-repeat;
+  animation: ct5 1s infinite linear;
+}
+
+@keyframes ct5 {
+  100% {
+    background-position: right -40px top 0, center;
+  }
+}
+
+.loader-header {
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--color-medium);
+}

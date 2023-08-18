@@ -6,7 +6,12 @@ function StartScreen({
   handleSecondsPerQuestion,
   secondsPerQuestion,
   numberOfQuestions,
+  dispatch,
 }) {
+  function handleClick() {
+    dispatch({ type: "loading" });
+    setIsClicked((isClicked) => !isClicked);
+  }
   return (
     <div className="StartScreen">
       <h3>Welcome to the Quiz App!</h3>
@@ -73,12 +78,7 @@ function StartScreen({
           ></input>
         </div>
       </div>
-      <button
-        onClick={() => {
-          setIsClicked((isClicked) => !isClicked);
-        }}
-        className="btn btn-ui"
-      >
+      <button onClick={handleClick} className="btn btn-ui">
         Let's Start
       </button>
     </div>

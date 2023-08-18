@@ -1,17 +1,48 @@
 import Header from "./components/Header";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Questions from "./components/Questions";
 // import Progress from "./components/Progress";
 import Main from "./components/Main";
 import StartScreen from "./components/StartScreen";
+import Loader from "./components/Loader";
 
+const initialState = {
+  questions: [],
+
+  // 'loading', 'error', 'ready', 'active', 'finished', initial
+  status: "initial",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "dataRecieved":
+      return {
+        ...state,
+        questions: action.payload,
+        status: "ready",
+      };
+    case "dataFailed":
+      return {
+        ...state,
+        status: "error",
+      };
+    case "loading": {
+      return {
+        ...state,
+        status: "loading",
+      };
+    }
+    default:
+      throw new Error("Action unkonwn");
+  }
+}
 function App() {
   const [difficulty, setDifficulty] = useState("");
   const [category, setCategory] = useState("");
   const [numberOfQuestions, setNumberOfQuestions] = useState(1);
   const [secondsPerQuestion, setSecondsPerQuestion] = useState(10);
   const [isClicked, setIsClicked] = useState(false);
-  const [questions, setQuestions] = useState([]);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
 
   function handleSetNumberOfQuestions(value) {
     const parsedValue = parseInt(value);
@@ -52,11 +83,10 @@ function App() {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-          setQuestions(data.results);
-          // Handle the API response data
+          dispatch({ type: "dataRecieved", payload: data.results });
         })
         .catch((error) => {
-          // Handle errors
+          dispatch({ type: "dataFailed" });
         });
       return () => {
         queryParams = [];
@@ -82,16 +112,21 @@ function App() {
     <div className="app">
       <Header />
       <Main>
-        {/* <Progress /> */}
-        <StartScreen
-          setIsClicked={setIsClicked}
-          setCategory={setCategory}
-          setDifficulty={setDifficulty}
-          handleSetNumberOfQuestions={handleSetNumberOfQuestions}
-          handleSecondsPerQuestion={handleSecondsPerQuestion}
-          secondsPerQuestion={secondsPerQuestion}
-          numberOfQuestions={numberOfQuestions}
-        ></StartScreen>
+        {status === "initial" && (
+          <StartScreen
+            setIsClicked={setIsClicked}
+            setCategory={setCategory}
+            setDifficulty={setDifficulty}
+            handleSetNumberOfQuestions={handleSetNumberOfQuestions}
+            handleSecondsPerQuestion={handleSecondsPerQuestion}
+            secondsPerQuestion={secondsPerQuestion}
+            numberOfQuestions={numberOfQuestions}
+            dispatch={dispatch}
+          ></StartScreen>
+        )}
+        {status === "loading" && <Loader />}
+        {status === "ready" && <Questions />}
+
         <Questions questions={questions} />
       </Main>
     </div>
