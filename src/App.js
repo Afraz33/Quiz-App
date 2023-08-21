@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import { useState, useEffect, useReducer } from "react";
 import Questions from "./components/Questions";
-// import Progress from "./components/Progress";
+import Progress from "./components/Progress";
 import Main from "./components/Main";
 import StartScreen from "./components/StartScreen";
 import Loader from "./components/Loader";
@@ -44,6 +44,7 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
   const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
 
+  console.log(questions);
   function handleSetNumberOfQuestions(value) {
     const parsedValue = parseInt(value);
 
@@ -125,9 +126,11 @@ function App() {
           ></StartScreen>
         )}
         {status === "loading" && <Loader />}
-        {status === "ready" && <Questions />}
-
-        <Questions questions={questions} />
+        {status === "ready" && (
+          <>
+            <Progress /> <Questions questions={questions} />
+          </>
+        )}
       </Main>
     </div>
   );

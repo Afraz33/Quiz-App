@@ -49,11 +49,14 @@ code {
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
+
+  column-gap: 2rem;
+
   color: var(--color-medium);
 }
 
 .main {
-  width: 40rem;
+  width: 36rem;
 }
 img {
   width: 10rem;
@@ -104,8 +107,8 @@ progress[value]::-webkit-progress-value {
 .progress {
   display: grid;
   grid-template-columns: auto auto;
-
-  font-size: 1.4rem;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
   justify-content: space-between;
   gap: 1.2rem;
 }
@@ -175,6 +178,11 @@ progress[value]::-webkit-progress-value {
   background-color: var(--color-darkest);
 }
 
+.btn-option {
+  width: 100%;
+  text-align: left;
+}
+
 .loader {
   display: flex;
   flex-direction: column;
@@ -202,4 +210,10 @@ progress[value]::-webkit-progress-value {
   font-size: 1.2rem;
   text-align: center;
   color: var(--color-medium);
+}
+
+.Options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 }
