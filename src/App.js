@@ -8,8 +8,9 @@ import Loader from "./components/Loader";
 
 const initialState = {
   questions: [],
+  points: 0,
 
-  // 'loading', 'error', 'ready', 'active', 'finished', initial
+  // 'lo ng', 'error', 'ready', 'active', 'finished', initial
   status: "initial",
 };
 
@@ -32,6 +33,16 @@ function reducer(state, action) {
         status: "loading",
       };
     }
+
+    case "newAnswer": {
+      return {
+        ...state,
+        points:
+          action.payload === state.questions[0].correct_answer
+            ? state.points + 30
+            : state.points,
+      };
+    }
     default:
       throw new Error("Action unkonwn");
   }
@@ -44,7 +55,6 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
   const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
 
-  console.log(questions);
   function handleSetNumberOfQuestions(value) {
     const parsedValue = parseInt(value);
 
@@ -79,7 +89,7 @@ function App() {
       if (queryParams.length > 0) {
         apiUrl += `&${queryParams.join("&")}`;
       }
-      console.log(apiUrl);
+
       // Now, make the fetch request using the apiUrl
       fetch(apiUrl)
         .then((response) => response.json())
@@ -108,7 +118,8 @@ function App() {
       }
     }
   }
-  console.log(isClicked);
+  console.log(questions[0]?.correct_answer);
+  console.log(questions);
   return (
     <div className="app">
       <Header />
@@ -128,7 +139,7 @@ function App() {
         {status === "loading" && <Loader />}
         {status === "ready" && (
           <>
-            <Progress /> <Questions questions={questions} />
+            <Progress /> <Questions questions={questions} dispatch={dispatch} />
           </>
         )}
       </Main>

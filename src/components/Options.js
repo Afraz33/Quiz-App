@@ -5,7 +5,7 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-function Options({ questions }) {
+function Options({ questions, dispatch }) {
   const options = [
     questions[0].correct_answer,
     ...questions[0].incorrect_answers,
@@ -13,8 +13,14 @@ function Options({ questions }) {
   shuffleArray(options);
   return (
     <div className="Options">
-      {options.map((option) => (
-        <button className="btn btn-option">{option}</button>
+      {options.map((option, i) => (
+        <button
+          key={i}
+          className="btn btn-option"
+          onClick={() => dispatch({ type: "newAnswer", payload: option })}
+        >
+          {option}
+        </button>
       ))}
     </div>
   );
