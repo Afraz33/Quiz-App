@@ -9,9 +9,10 @@ import Loader from "./components/Loader";
 const initialState = {
   questions: [],
   points: 0,
-
-  // 'lo ng', 'error', 'ready', 'active', 'finished', initial
+  answer: null,
+  // 'loading', 'error', 'ready', 'active', 'finished', initial
   status: "initial",
+  index: 0,
 };
 
 function reducer(state, action) {
@@ -35,10 +36,12 @@ function reducer(state, action) {
     }
 
     case "newAnswer": {
+      const question = state.questions.at(state.index);
       return {
         ...state,
+        answer: action.payload,
         points:
-          action.payload === state.questions[0].correct_answer
+          action.payload === question.correct_answer
             ? state.points + 30
             : state.points,
       };
@@ -53,8 +56,11 @@ function App() {
   const [numberOfQuestions, setNumberOfQuestions] = useState(1);
   const [secondsPerQuestion, setSecondsPerQuestion] = useState(10);
   const [isClicked, setIsClicked] = useState(false);
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
-
+  const [{ questions, status, points, answer, index }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+  const totalPoints = questions.length * 30;
   function handleSetNumberOfQuestions(value) {
     const parsedValue = parseInt(value);
 
@@ -119,7 +125,7 @@ function App() {
     }
   }
   console.log(questions[0]?.correct_answer);
-  console.log(questions);
+  console.log(points);
   return (
     <div className="app">
       <Header />
@@ -139,7 +145,18 @@ function App() {
         {status === "loading" && <Loader />}
         {status === "ready" && (
           <>
-            <Progress /> <Questions questions={questions} dispatch={dispatch} />
+            <Progress
+              totalPoints={totalPoints}
+              points={points}
+              questions={questions}
+              index={index}
+            />
+            <Questions
+              questions={questions}
+              answer={answer}
+              dispatch={dispatch}
+              index={index}
+            />
           </>
         )}
       </Main>

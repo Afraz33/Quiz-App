@@ -1,12 +1,12 @@
-function Progress() {
+function Progress({ totalPoints, points, questions, index }) {
   return (
     <header className="progress">
-      <progress max="100" value="90"></progress>
+      <progress max={totalPoints / 30} value={points}></progress>
       <p>
-        Question <strong>1</strong>/20
+        Questions <strong>{index}</strong>/ {questions.length}
       </p>
       <p>
-        Correct <strong>2</strong>/10
+        Points <strong>{points ? points : 0}</strong>/{totalPoints}
       </p>
     </header>
   );

@@ -102,6 +102,7 @@ progress[value]::-webkit-progress-value {
   background-color: var(--color-accent);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  border-radius: 5px;
 }
 
 .progress {
@@ -216,4 +217,21 @@ progress[value]::-webkit-progress-value {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+}
+
+.correct {
+  background-color: gold;
+  color: var(--color-darkest);
+  border: 2px solid black;
+}
+
+.wrong {
+  background-color: red;
+  border: 2px solid black;
+}
+
+.answer {
+  transform: translateX(4rem);
+
+  border: 3px solid wheat;
 }
