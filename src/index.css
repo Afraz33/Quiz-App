@@ -23,7 +23,7 @@ body {
 
   background-color: var(--color-darkest);
   min-height: 100vh;
-  padding: 3.2rem;
+  padding: 1.2rem;
   font-size: 62.5%;
   color: var(--color-light);
 }
@@ -164,7 +164,7 @@ progress[value]::-webkit-progress-value {
   display: block;
   font-family: inherit;
   color: inherit;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   border: 2px solid var(--color-dark);
   background-color: var(--color-dark);
   padding: 0.5rem 2.3rem;
@@ -172,6 +172,9 @@ progress[value]::-webkit-progress-value {
   border-radius: 100px;
   transition: 0.3s;
   border-color: var(--color-accent);
+}
+
+.btn-ui {
   float: right;
 }
 
@@ -182,6 +185,9 @@ progress[value]::-webkit-progress-value {
 .btn-option {
   width: 100%;
   text-align: left;
+}
+.btn[disabled]:hover {
+  cursor: not-allowed;
 }
 
 .loader {
@@ -217,6 +223,7 @@ progress[value]::-webkit-progress-value {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .correct {

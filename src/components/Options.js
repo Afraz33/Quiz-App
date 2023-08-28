@@ -31,6 +31,7 @@ function Options({ questions, dispatch, answer, index }) {
             (option === questions[index].correct_answer ? "correct" : "wrong")
           } `}
           onClick={() => dispatch({ type: "newAnswer", payload: option })}
+          disabled={hasAnswered}
         >
           {decodeHtml(option)}
         </button>

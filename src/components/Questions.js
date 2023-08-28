@@ -1,7 +1,7 @@
 import Options from "./Options";
 import decodeHtml from "../functions/decodeHTMLEntities";
 function Questions({ questions, dispatch, answer, index }) {
-  const question = decodeHtml(questions[0].question);
+  const question = decodeHtml(questions[index].question);
 
   return (
     <div className="Questions">

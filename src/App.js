@@ -5,7 +5,7 @@ import Progress from "./components/Progress";
 import Main from "./components/Main";
 import StartScreen from "./components/StartScreen";
 import Loader from "./components/Loader";
-
+import NextButton from "./components/NextButton";
 const initialState = {
   questions: [],
   points: 0,
@@ -44,6 +44,20 @@ function reducer(state, action) {
           action.payload === question.correct_answer
             ? state.points + 30
             : state.points,
+      };
+    }
+    case "nextQuestion": {
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null,
+      };
+    }
+
+    case "finish": {
+      return {
+        ...state,
+        status: "",
       };
     }
     default:
@@ -159,6 +173,12 @@ function App() {
             />
           </>
         )}
+        <NextButton
+          dispatch={dispatch}
+          questions={questions}
+          index={index}
+          answer={answer}
+        />
       </Main>
     </div>
   );
