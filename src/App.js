@@ -6,6 +6,8 @@ import Main from "./components/Main";
 import StartScreen from "./components/StartScreen";
 import Loader from "./components/Loader";
 import NextButton from "./components/NextButton";
+import FinishScreen from "./components/FinishScreen";
+import Timer from "./components/Timer";
 const initialState = {
   questions: [],
   points: 0,
@@ -13,6 +15,7 @@ const initialState = {
   // 'loading', 'error', 'ready', 'active', 'finished', initial
   status: "initial",
   index: 0,
+  secondsRemaining: 0,
 };
 
 function reducer(state, action) {
@@ -20,8 +23,10 @@ function reducer(state, action) {
     case "dataRecieved":
       return {
         ...state,
-        questions: action.payload,
+        questions: action.payload.questions,
         status: "ready",
+        secondsRemaining:
+          action.payload.questions.length * action.payload.secondsPerQuestion,
       };
     case "dataFailed":
       return {
@@ -57,11 +62,29 @@ function reducer(state, action) {
     case "finish": {
       return {
         ...state,
-        status: "",
+        status: "Finished",
       };
     }
-    default:
+    case "restart": {
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: "ready",
+        secondsRemaining: state.questions.length * action.payload,
+      };
+    }
+    case "newQuiz": {
+      return { ...initialState, status: "initial" };
+    }
+    case "tick":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "Finished" : state.status,
+      };
+    default: {
       throw new Error("Action unkonwn");
+    }
   }
 }
 function App() {
@@ -70,10 +93,15 @@ function App() {
   const [numberOfQuestions, setNumberOfQuestions] = useState(1);
   const [secondsPerQuestion, setSecondsPerQuestion] = useState(10);
   const [isClicked, setIsClicked] = useState(false);
-  const [{ questions, status, points, answer, index }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [highestPercentage, setHighestPercentage] = useState(function () {
+    const value = localStorage.getItem("highestPercentage");
+    return value ? parseInt(value) : 0;
+  });
+  const [
+    { questions, status, points, answer, index, secondsRemaining },
+    dispatch,
+  ] = useReducer(reducer, initialState);
+
   const totalPoints = questions.length * 30;
   function handleSetNumberOfQuestions(value) {
     const parsedValue = parseInt(value);
@@ -87,7 +115,7 @@ function App() {
       }
     }
   }
-
+  console.log(secondsRemaining);
   useEffect(() => {
     if (isClicked) {
       // Construct the base URL for your API
@@ -114,7 +142,10 @@ function App() {
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-          dispatch({ type: "dataRecieved", payload: data.results });
+          dispatch({
+            type: "dataRecieved",
+            payload: { questions: data.results, secondsPerQuestion },
+          });
         })
         .catch((error) => {
           dispatch({ type: "dataFailed" });
@@ -125,7 +156,7 @@ function App() {
       };
       // Reset the buttonClicked state to false after making the API request
     }
-  }, [category, difficulty, isClicked, numberOfQuestions]);
+  }, [category, difficulty, isClicked, numberOfQuestions, secondsPerQuestion]);
   function handleSecondsPerQuestion(value) {
     const parsedValue = parseInt(value);
 
@@ -138,8 +169,7 @@ function App() {
       }
     }
   }
-  console.log(questions[0]?.correct_answer);
-  console.log(points);
+
   return (
     <div className="app">
       <Header />
@@ -171,14 +201,25 @@ function App() {
               dispatch={dispatch}
               index={index}
             />
+            <NextButton
+              dispatch={dispatch}
+              questions={questions}
+              index={index}
+              answer={answer}
+            />
+            <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
           </>
         )}
-        <NextButton
-          dispatch={dispatch}
-          questions={questions}
-          index={index}
-          answer={answer}
-        />
+        {status === "Finished" && (
+          <FinishScreen
+            highestPercentage={highestPercentage}
+            setHighestPercentage={setHighestPercentage}
+            dispatch={dispatch}
+            totalPoints={totalPoints}
+            points={points}
+            secondsPerQuestion={secondsPerQuestion}
+          />
+        )}
       </Main>
     </div>
   );
